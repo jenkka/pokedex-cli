@@ -8,6 +8,8 @@ import (
 	"strings"
 )
 
+var pokeapi PokeAPI = NewPokeAPI()
+
 type CLICommand struct {
 	name        string
 	description string
@@ -15,6 +17,16 @@ type CLICommand struct {
 }
 
 var inputToCliCommand = map[string]CLICommand{
+    "map": {
+        name:        "map",
+        description: "Display the next 20 areas in the Pokemon world",
+        callback:     commandMap,
+    },
+    "mapb": {
+        name:        "mapb",
+        description: "Display the previous 20 areas in the Pokemon world",
+        callback:     commandMapB,
+    },
 	"help": {
 		name:        "help",
 		description: "Display a help message",
@@ -66,6 +78,14 @@ func validateUserInput(input []string) error {
 		return errors.New("")
 	}
 	return nil
+}
+
+func commandMap() error {
+    return pokeapi.Map()
+}
+
+func commandMapB() error {
+    return pokeapi.MapB()
 }
 
 func main() {
